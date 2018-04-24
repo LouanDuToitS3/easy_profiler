@@ -202,6 +202,26 @@ $ mkdir build
 $ cd build
 $ cmake -DCMAKE_CXX_COMPILER=g++-5 -DCMAKE_C_COMPILER=gcc-5 -DCMAKE_BUILD_TYPE="Release" ..
 $ make
+
+Alternate
+
+#prepare build environment
+brew install gcc5
+brew install qt55
+brew link --force qt55
+export QT_NAME="qt@5.5"
+export HOMEBREW_QT5_VERSION=$(brew list --versions $QT_NAME | rev | cut -d' ' -f1 | rev)
+ln -s /usr/local/Cellar/$QT_NAME/$HOMEBREW_QT5_VERSION/mkspecs /usr/local/mkspecs
+ln -s /usr/local/Cellar/$QT_NAME/$HOMEBREW_QT5_VERSION/plugins /usr/local/plugins
+
+#build 
+cmake -DCMAKE_CXX_COMPILER=g++-5 -DCMAKE_C_COMPILER=gcc-5 $PATH_TO_EASY_PROFILER_SOURCE
+make
+sudo make install
+sudo install_name_tool -add_rpath /usr/local/bin /usr/local/bin/profiler_converter
+sudo install_name_tool -add_rpath /usr/local/bin /usr/local/bin/profiler_gui
+
+
 ```
 
 ## Windows
